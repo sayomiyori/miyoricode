@@ -19,7 +19,11 @@ export function parseChatPayload(payload: unknown): ChatResponse {
   if (!isChatResponse(payload)) {
     throw new ChatRequestError("invalid-response");
   }
-  return payload;
+  return {
+    ...payload,
+    attachments: payload.attachments ?? null,
+    card: payload.card ?? null,
+  };
 }
 
 export async function postChat(

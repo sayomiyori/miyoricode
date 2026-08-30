@@ -89,6 +89,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
             role: "bot",
             text: response.reply,
             attachments: response.attachments,
+            card: response.card,
           },
         ]);
       } catch {
@@ -99,6 +100,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
             role: "bot",
             text: errorFallback,
             attachments: null,
+            card: null,
           },
         ]);
       } finally {

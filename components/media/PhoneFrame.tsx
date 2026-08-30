@@ -8,6 +8,7 @@ type PhoneFrameProps = {
   alt: string;
   className?: string;
   priority?: boolean;
+  sizes?: string;
 };
 
 export function PhoneFrame({
@@ -15,6 +16,7 @@ export function PhoneFrame({
   alt,
   className,
   priority = false,
+  sizes = "(max-width: 768px) 42vw, 180px",
 }: PhoneFrameProps) {
   return (
     <div
@@ -29,7 +31,7 @@ export function PhoneFrame({
           src={src}
           alt={alt}
           fill
-          sizes="(max-width: 768px) 42vw, 180px"
+          sizes={sizes}
           priority={priority}
           className="object-cover"
         />

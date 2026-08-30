@@ -11,6 +11,30 @@ export type ChatAttachments = {
   images: AttachmentImage[] | null;
 };
 
+export type CarouselLink = {
+  label: string;
+  url: string;
+};
+
+export type CarouselItem = {
+  id: string;
+  title: string;
+  category: string;
+  year: string;
+  cover_image: string | null;
+  cover_gradient: string[] | null;
+  description: string;
+  technologies: string[];
+  link: string | null;
+  links: CarouselLink[];
+  screenshots: AttachmentImage[];
+};
+
+export type ChatCard = {
+  type: "project_carousel";
+  items: CarouselItem[];
+};
+
 export type ChatSource = "structured" | "rag" | "fallback_declined";
 
 export type ChatResponse = {
@@ -18,6 +42,7 @@ export type ChatResponse = {
   session_id: string;
   source: ChatSource;
   attachments: ChatAttachments | null;
+  card: ChatCard | null;
 };
 
 export type ChatTurn = {
@@ -25,6 +50,7 @@ export type ChatTurn = {
   role: "user" | "bot";
   text: string;
   attachments?: ChatAttachments | null;
+  card?: ChatCard | null;
   isRestored?: boolean;
 };
 
@@ -39,8 +65,25 @@ export function hasRenderableAttachments(
   return hasLink || hasImages;
 }
 
+export function hasRenderableCard(
+  card: ChatCard | null | undefined,
+): card is ChatCard {
+  return Boolean(card && card.type === "project_carousel" && card.items.length > 0);
+}
+
 export function isSafeImageUrl(url: string): boolean {
-  return url.startsWith("/projects/") && !url.includes("..");
+  if (url.includes("..")) return false;
+  if (url.startsWith("/projects/")) return true;
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.protocol === "https:" &&
+      parsed.hostname === "raw.githubusercontent.com" &&
+      parsed.pathname.startsWith("/sayomiyori/")
+    );
+  } catch {
+    return false;
+  }
 }
 
 export function isSafeHttpUrl(url: string): boolean {

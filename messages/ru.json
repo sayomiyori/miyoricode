@@ -10,7 +10,10 @@
     "closePreview": "Закрыть просмотр",
     "previewTitle": "Просмотр скриншота",
     "thinking": "Думаю…",
-    "chatError": "Не удалось связаться с чатом. Попробуйте ещё раз."
+    "chatError": "Не удалось связаться с чатом. Попробуйте ещё раз.",
+    "closeProject": "Закрыть проект",
+    "projectLinks": "Ссылки",
+    "projectScreenshots": "Скриншоты"
   },
   "Metadata": {
     "title": "Матвей — Backend / LLM Engineer",

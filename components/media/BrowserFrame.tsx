@@ -8,6 +8,8 @@ type BrowserFrameProps = {
   alt: string;
   className?: string;
   priority?: boolean;
+  sizes?: string;
+  objectFit?: "cover" | "contain";
 };
 
 export function BrowserFrame({
@@ -15,6 +17,8 @@ export function BrowserFrame({
   alt,
   className,
   priority = false,
+  sizes = "(max-width: 768px) 78vw, 280px",
+  objectFit = "cover",
 }: BrowserFrameProps) {
   return (
     <div
@@ -37,9 +41,9 @@ export function BrowserFrame({
           src={src}
           alt={alt}
           fill
-          sizes="(max-width: 768px) 78vw, 280px"
+          sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className={objectFit === "contain" ? "object-contain" : "object-cover"}
         />
       </div>
     </div>

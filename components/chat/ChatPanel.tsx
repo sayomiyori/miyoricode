@@ -40,9 +40,13 @@ export function ChatPanel() {
                 <ChatBubble
                   text={turn.text}
                   attachments={turn.attachments}
+                  card={turn.card}
                   openDemoLabel={messages.openDemo}
                   closePreviewLabel={messages.closePreview}
                   previewTitle={messages.previewTitle}
+                  closeProjectLabel={messages.closeProject}
+                  projectLinksLabel={messages.projectLinks}
+                  projectScreenshotsLabel={messages.projectScreenshots}
                 />
               </ChatEnter>
             ),

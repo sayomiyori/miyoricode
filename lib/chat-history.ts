@@ -1,4 +1,11 @@
-import type { AttachmentImage, ChatAttachments, ChatTurn } from "@/lib/chat";
+import type {
+  AttachmentImage,
+  CarouselItem,
+  CarouselLink,
+  ChatAttachments,
+  ChatCard,
+  ChatTurn,
+} from "@/lib/chat";
 
 export const CHAT_HISTORY_KEY = "chat-history";
 
@@ -25,6 +32,52 @@ function isChatAttachments(value: unknown): value is ChatAttachments {
   );
 }
 
+function isCarouselLink(value: unknown): value is CarouselLink {
+  if (!value || typeof value !== "object") return false;
+  const link = value as Record<string, unknown>;
+  return typeof link.label === "string" && typeof link.url === "string";
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isCarouselItem(value: unknown): value is CarouselItem {
+  if (!value || typeof value !== "object") return false;
+  const item = value as Record<string, unknown>;
+  if (typeof item.id !== "string" || typeof item.title !== "string") {
+    return false;
+  }
+  if (typeof item.category !== "string" || typeof item.year !== "string") {
+    return false;
+  }
+  if (typeof item.description !== "string") return false;
+  if (!isStringArray(item.technologies)) return false;
+  if (item.cover_image != null && typeof item.cover_image !== "string") {
+    return false;
+  }
+  if (item.cover_gradient != null && !isStringArray(item.cover_gradient)) {
+    return false;
+  }
+  if (item.link != null && typeof item.link !== "string") return false;
+  if (!Array.isArray(item.links) || !item.links.every(isCarouselLink)) {
+    return false;
+  }
+  return (
+    Array.isArray(item.screenshots) && item.screenshots.every(isAttachmentImage)
+  );
+}
+
+function isChatCard(value: unknown): value is ChatCard {
+  if (!value || typeof value !== "object") return false;
+  const card = value as Record<string, unknown>;
+  return (
+    card.type === "project_carousel" &&
+    Array.isArray(card.items) &&
+    card.items.every(isCarouselItem)
+  );
+}
+
 function isChatTurn(value: unknown): value is ChatTurn {
   if (!value || typeof value !== "object") return false;
   const turn = value as Record<string, unknown>;
@@ -32,8 +85,13 @@ function isChatTurn(value: unknown): value is ChatTurn {
     return false;
   }
   if (turn.role !== "user" && turn.role !== "bot") return false;
-  if (turn.attachments == null) return true;
-  return isChatAttachments(turn.attachments);
+  if (turn.attachments != null && !isChatAttachments(turn.attachments)) {
+    return false;
+  }
+  if (turn.card != null && !isChatCard(turn.card)) {
+    return false;
+  }
+  return true;
 }
 
 function isChatTurnArray(value: unknown): value is ChatTurn[] {

@@ -9,6 +9,8 @@ type FramedScreenshotProps = {
   alt: string;
   frame: ImageFrame;
   priority?: boolean;
+  sizes?: string;
+  objectFit?: "cover" | "contain";
 };
 
 export function FramedScreenshot({
@@ -16,10 +18,20 @@ export function FramedScreenshot({
   alt,
   frame,
   priority,
+  sizes,
+  objectFit,
 }: FramedScreenshotProps) {
   if (frame === "phone") {
-    return <PhoneFrame src={src} alt={alt} priority={priority} />;
+    return <PhoneFrame src={src} alt={alt} priority={priority} sizes={sizes} />;
   }
 
-  return <BrowserFrame src={src} alt={alt} priority={priority} />;
+  return (
+    <BrowserFrame
+      src={src}
+      alt={alt}
+      priority={priority}
+      sizes={sizes}
+      objectFit={objectFit}
+    />
+  );
 }

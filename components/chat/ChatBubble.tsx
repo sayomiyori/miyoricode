@@ -2,7 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { MessageAttachments } from "@/components/chat/MessageAttachments";
-import type { ChatAttachments } from "@/lib/chat";
+import { ProjectCarousel } from "@/components/projects/ProjectCarousel";
+import type { ChatAttachments, ChatCard } from "@/lib/chat";
 import { cn } from "@/lib/utils";
 
 const BotMarkdown = dynamic(
@@ -13,17 +14,25 @@ const BotMarkdown = dynamic(
 type ChatBubbleProps = {
   text: string;
   attachments?: ChatAttachments | null;
+  card?: ChatCard | null;
   openDemoLabel: string;
   closePreviewLabel: string;
   previewTitle: string;
+  closeProjectLabel: string;
+  projectLinksLabel: string;
+  projectScreenshotsLabel: string;
 };
 
 export function ChatBubble({
   text,
   attachments,
+  card,
   openDemoLabel,
   closePreviewLabel,
   previewTitle,
+  closeProjectLabel,
+  projectLinksLabel,
+  projectScreenshotsLabel,
 }: ChatBubbleProps) {
   return (
     <article
@@ -38,6 +47,13 @@ export function ChatBubble({
         openDemoLabel={openDemoLabel}
         closePreviewLabel={closePreviewLabel}
         previewTitle={previewTitle}
+      />
+      <ProjectCarousel
+        card={card}
+        closeLabel={closeProjectLabel}
+        demoLabel={openDemoLabel}
+        linksLabel={projectLinksLabel}
+        screenshotsLabel={projectScreenshotsLabel}
       />
     </article>
   );

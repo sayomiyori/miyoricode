@@ -10,7 +10,10 @@
     "closePreview": "Close preview",
     "previewTitle": "Screenshot preview",
     "thinking": "Thinking…",
-    "chatError": "Couldn't reach the chat. Try again."
+    "chatError": "Couldn't reach the chat. Try again.",
+    "closeProject": "Close project",
+    "projectLinks": "Links",
+    "projectScreenshots": "Screenshots"
   },
   "Metadata": {
     "title": "Matvey — Backend / LLM Engineer",
