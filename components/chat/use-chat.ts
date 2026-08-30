@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { postChat } from "@/lib/chat-api";
+import { readStoredHistory, writeStoredHistory } from "@/lib/chat-history";
 import type { ChatTurn } from "@/lib/chat";
 
 const SESSION_STORAGE_KEY = "miyori-session-id";
@@ -32,13 +33,30 @@ function persistSession(sessionId: string): void {
 }
 
 export function useChat(lang: "en" | "ru", errorFallback: string) {
-  const [turns, setTurns] = useState<ChatTurn[]>([]);
+  const [turns, setTurns] = useState<ChatTurn[]>(readStoredHistory);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
     setSessionId(readStoredSession());
   }, []);
+
+  useLayoutEffect(() => {
+    const stored = readStoredHistory();
+    if (stored.length === 0) return;
+    setTurns((current) => (current.length === 0 ? stored : current));
+  }, []);
+
+  const commitTurns = useCallback(
+    (updater: (current: ChatTurn[]) => ChatTurn[]) => {
+      setTurns((current) => {
+        const next = updater(current);
+        writeStoredHistory(next);
+        return next;
+      });
+    },
+    [],
+  );
 
   const rememberSession = useCallback((next: string) => {
     if (!next) return;
@@ -57,14 +75,14 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
         text: trimmed,
       };
 
-      setTurns((current) => [...current, userTurn]);
+      commitTurns((current) => [...current, userTurn]);
       setPending(true);
       void import("@/components/chat/BotMarkdown");
 
       try {
         const response = await postChat(trimmed, lang, sessionId);
         rememberSession(response.session_id);
-        setTurns((current) => [
+        commitTurns((current) => [
           ...current,
           {
             id: nextId(),
@@ -74,7 +92,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
           },
         ]);
       } catch {
-        setTurns((current) => [
+        commitTurns((current) => [
           ...current,
           {
             id: nextId(),
@@ -87,7 +105,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
         setPending(false);
       }
     },
-    [errorFallback, lang, pending, rememberSession, sessionId],
+    [commitTurns, errorFallback, lang, pending, rememberSession, sessionId],
   );
 
   return { turns, pending, send };
