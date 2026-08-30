@@ -1,0 +1,14 @@
+{
+  "Home": {
+    "greeting": "Hey, I'm Matvey",
+    "role": "Backend / LLM Engineer",
+    "placeholder": "Ask me anything...",
+    "askAria": "Ask me anything",
+    "sendAria": "Send question",
+    "langAria": "Switch language"
+  },
+  "Metadata": {
+    "title": "Matvey — Backend / LLM Engineer",
+    "description": "AI-native portfolio. Ask me anything about backend, LLMs, and the things I build."
+  }
+}

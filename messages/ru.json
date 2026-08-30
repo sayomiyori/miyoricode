@@ -1,0 +1,14 @@
+{
+  "Home": {
+    "greeting": "Привет, я Матвей",
+    "role": "Backend / LLM Engineer",
+    "placeholder": "Спроси что угодно...",
+    "askAria": "Спроси что угодно",
+    "sendAria": "Отправить вопрос",
+    "langAria": "Переключить язык"
+  },
+  "Metadata": {
+    "title": "Матвей — Backend / LLM Engineer",
+    "description": "AI-native портфолио. Спроси что угодно про backend, LLM и то, что я собираю."
+  }
+}

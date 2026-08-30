@@ -1,0 +1,7 @@
+.text-animation-unit {
+  display: inline-block;
+  white-space: pre;
+  backface-visibility: hidden;
+  transform-origin: 50% 55%;
+  will-change: transform, opacity, filter;
+}
