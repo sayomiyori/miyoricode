@@ -6,13 +6,21 @@ import BlurOutUp from "@/components/animata/text/blur-out-up";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { cn } from "@/lib/utils";
 
-export function AskInput() {
+type AskInputProps = {
+  onAsk?: (value: string) => void | Promise<void>;
+  disabled?: boolean;
+};
+
+export function AskInput({ onAsk, disabled = false }: AskInputProps) {
   const { messages } = useLocaleSwitch();
   const [value, setValue] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // TODO: backend
+    const next = value.trim();
+    if (!next || disabled) return;
+    void onAsk?.(next);
+    setValue("");
   }
 
   return (
@@ -37,6 +45,7 @@ export function AskInput() {
           onChange={(event) => setValue(event.target.value)}
           placeholder={messages.placeholder}
           autoComplete="off"
+          disabled={disabled}
           className={cn(
             "w-full bg-transparent px-2 py-2 text-base font-normal wdth-normal text-ink focus:outline-none",
             !value && "caret-ink placeholder:text-transparent",
@@ -54,11 +63,13 @@ export function AskInput() {
       <button
         type="submit"
         aria-label={messages.sendAria}
+        disabled={disabled || !value.trim()}
         className={cn(
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-full",
+          "flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full",
           "bg-splat-blue text-white shadow-md",
           "transition-colors duration-200 hover:bg-[#3b5de0]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+          "disabled:cursor-not-allowed disabled:opacity-50",
         )}
       >
         <ArrowUp className="h-5 w-5" aria-hidden="true" strokeWidth={2.25} />

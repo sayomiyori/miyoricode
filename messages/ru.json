@@ -5,7 +5,12 @@
     "placeholder": "Спроси что угодно...",
     "askAria": "Спроси что угодно",
     "sendAria": "Отправить вопрос",
-    "langAria": "Переключить язык"
+    "langAria": "Переключить язык",
+    "openDemo": "Открыть демо",
+    "closePreview": "Закрыть просмотр",
+    "previewTitle": "Просмотр скриншота",
+    "thinking": "Думаю…",
+    "chatError": "Не удалось связаться с чатом. Попробуйте ещё раз."
   },
   "Metadata": {
     "title": "Матвей — Backend / LLM Engineer",

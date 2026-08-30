@@ -1,5 +1,6 @@
-import { AskInput } from "./AskInput";
 import { AvatarTilt } from "./AvatarTilt";
+import { ChatProvider } from "@/components/chat/chat-context";
+import { ChatPanel } from "@/components/chat/ChatPanel";
 import FluidCursor from "./FluidCursor";
 import { HeroCopy } from "./HeroCopy";
 import { Logo } from "./Logo";
@@ -14,17 +15,19 @@ export function Hero() {
       <Watermark />
       <FluidCursor />
       <LangToggle />
-      <main className="relative z-10 flex min-h-dvh items-center justify-center px-5 py-16">
-        <div className="flex w-full max-w-[600px] flex-col items-center text-center">
+      <main className="relative z-10 flex min-h-dvh items-center justify-center overflow-x-hidden px-5 py-16">
+        <div className="flex w-full min-w-0 max-w-[600px] flex-col items-center text-center">
           <Logo />
           <HeroCopy />
           <div className="mt-8 w-full">
             <AvatarTilt />
           </div>
-          <div className="mt-8 w-full">
-            <AskInput />
-          </div>
-          <ShortcutRow />
+          <ChatProvider>
+            <div className="mt-8 w-full">
+              <ChatPanel />
+            </div>
+            <ShortcutRow />
+          </ChatProvider>
         </div>
       </main>
     </LocaleSwitchProvider>
