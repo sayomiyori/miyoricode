@@ -25,6 +25,7 @@ export type ChatTurn = {
   role: "user" | "bot";
   text: string;
   attachments?: ChatAttachments | null;
+  isRestored?: boolean;
 };
 
 export function hasRenderableAttachments(

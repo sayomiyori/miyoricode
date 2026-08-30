@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { ImageLightbox } from "@/components/chat/ImageLightbox";
+import { LocaleFade } from "@/components/layout/LocaleFade";
 import { FramedScreenshot } from "@/components/media/FramedScreenshot";
 import {
   hasRenderableAttachments,
@@ -65,7 +66,9 @@ export function MessageAttachments({
             aria-hidden="true"
             strokeWidth={1.75}
           />
-          <span>{openDemoLabel}</span>
+          <LocaleFade>
+            <span>{openDemoLabel}</span>
+          </LocaleFade>
         </a>
       ) : null}
 

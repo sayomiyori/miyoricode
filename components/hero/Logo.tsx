@@ -1,9 +1,13 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-export function Logo() {
+type LogoProps = {
+  enter?: boolean;
+};
+
+export function Logo({ enter = true }: LogoProps) {
   return (
-    <div className="logo-enter mb-5">
+    <div className={enter ? "logo-enter mb-5" : "mb-5"}>
       <div
         className={cn(
           "glass flex h-12 w-12 items-center justify-center p-0.5",

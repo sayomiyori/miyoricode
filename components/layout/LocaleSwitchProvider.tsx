@@ -11,9 +11,9 @@ import {
   type ReactNode,
 } from "react";
 import { useLocale } from "next-intl";
-import { getTextSwapDuration } from "@/components/animata/text/blur-out-up";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { LOCALE_FADE_MS } from "@/lib/motion-variants";
 import en from "@/messages/en.json";
 import ru from "@/messages/ru.json";
 
@@ -34,14 +34,6 @@ type LocaleSwitchContextValue = {
 const LocaleSwitchContext = createContext<LocaleSwitchContextValue | null>(
   null,
 );
-
-function longestSwapMs(from: HomeMessages, to: HomeMessages): number {
-  return Math.max(
-    getTextSwapDuration(from.greeting, to.greeting),
-    getTextSwapDuration(from.role, to.role),
-    getTextSwapDuration(from.placeholder, to.placeholder),
-  );
-}
 
 export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
   const routeLocale = useLocale() as Locale;
@@ -73,9 +65,7 @@ export function LocaleSwitchProvider({ children }: { children: ReactNode }) {
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const duration = reduced
-        ? 0
-        : longestSwapMs(HOME[displayLocale], HOME[next]);
+      const duration = reduced ? 0 : LOCALE_FADE_MS;
 
       setSwitching(true);
       setDisplayLocale(next);

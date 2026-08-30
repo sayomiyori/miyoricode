@@ -1,7 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import type { Locale } from "@/i18n/routing";
+import { interactiveHover, interactiveTap } from "@/lib/motion-variants";
 import { cn } from "@/lib/utils";
 
 const OPTIONS: Locale[] = ["en", "ru"];
@@ -22,14 +24,16 @@ export function LangToggle() {
       {OPTIONS.map((option) => {
         const active = option === displayLocale;
         return (
-          <button
+          <motion.button
             key={option}
             type="button"
             onClick={() => switchLocale(option)}
             aria-pressed={active}
             disabled={switching}
+            whileHover={switching ? undefined : interactiveHover}
+            whileTap={switching ? undefined : interactiveTap}
             className={cn(
-              "rounded-xl px-3 py-1.5 text-xs font-semibold uppercase wdth-wide",
+              "cursor-pointer rounded-xl px-3 py-1.5 text-xs font-semibold uppercase wdth-wide",
               "transition-colors duration-200",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
               "disabled:cursor-wait",
@@ -39,7 +43,7 @@ export function LangToggle() {
             )}
           >
             {option}
-          </button>
+          </motion.button>
         );
       })}
     </div>

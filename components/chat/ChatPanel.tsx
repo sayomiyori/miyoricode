@@ -1,8 +1,10 @@
 "use client";
 
 import { ChatBubble } from "@/components/chat/ChatBubble";
+import { ChatEnter } from "@/components/chat/ChatEnter";
 import { useChatContext } from "@/components/chat/chat-context";
 import { AskInput } from "@/components/hero/AskInput";
+import { LocaleFade } from "@/components/layout/LocaleFade";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { cn } from "@/lib/utils";
 
@@ -19,36 +21,46 @@ export function ChatPanel() {
         >
           {turns.map((turn) =>
             turn.role === "user" ? (
-              <p
+              <ChatEnter
                 key={turn.id}
-                className={cn(
-                  "glass ml-auto max-w-[85%] px-3.5 py-2 text-left text-sm shadow-lg",
-                  "bg-white/10 border border-white/20 wdth-normal text-ink",
-                )}
+                restored={turn.isRestored}
+                className="flex justify-end"
               >
-                {turn.text}
-              </p>
+                <p
+                  className={cn(
+                    "glass max-w-[85%] px-3.5 py-2 text-left text-sm shadow-lg",
+                    "bg-white/10 border border-white/20 wdth-normal text-ink",
+                  )}
+                >
+                  {turn.text}
+                </p>
+              </ChatEnter>
             ) : (
-              <ChatBubble
-                key={turn.id}
-                text={turn.text}
-                attachments={turn.attachments}
-                openDemoLabel={messages.openDemo}
-                closePreviewLabel={messages.closePreview}
-                previewTitle={messages.previewTitle}
-              />
+              <ChatEnter key={turn.id} restored={turn.isRestored}>
+                <ChatBubble
+                  text={turn.text}
+                  attachments={turn.attachments}
+                  openDemoLabel={messages.openDemo}
+                  closePreviewLabel={messages.closePreview}
+                  previewTitle={messages.previewTitle}
+                />
+              </ChatEnter>
             ),
           )}
           {pending ? (
-            <div
-              className={cn(
-                "glass w-fit px-4 py-3 text-left text-sm text-ink/70 shadow-lg",
-                "bg-white/10 border border-white/20",
-              )}
-              aria-busy="true"
-            >
-              <span className="motion-safe:animate-pulse">{messages.thinking}</span>
-            </div>
+            <ChatEnter>
+              <div
+                className={cn(
+                  "glass w-fit px-4 py-3 text-left text-sm text-ink/70 shadow-lg",
+                  "bg-white/10 border border-white/20",
+                )}
+                aria-busy="true"
+              >
+                <span className="motion-safe:animate-pulse">
+                  <LocaleFade>{messages.thinking}</LocaleFade>
+                </span>
+              </div>
+            </ChatEnter>
           ) : null}
         </div>
       ) : null}

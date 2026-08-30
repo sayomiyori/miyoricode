@@ -1,9 +1,16 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 import BlurOutUp from "@/components/animata/text/blur-out-up";
+import { LocaleFade } from "@/components/layout/LocaleFade";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
+import {
+  heroItem,
+  interactiveHover,
+  interactiveTap,
+} from "@/lib/motion-variants";
 import { cn } from "@/lib/utils";
 
 type AskInputProps = {
@@ -14,6 +21,7 @@ type AskInputProps = {
 export function AskInput({ onAsk, disabled = false }: AskInputProps) {
   const { messages } = useLocaleSwitch();
   const [value, setValue] = useState("");
+  const canSend = !disabled && Boolean(value.trim());
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,7 +32,8 @@ export function AskInput({ onAsk, disabled = false }: AskInputProps) {
   }
 
   return (
-    <form
+    <motion.form
+      variants={heroItem}
       onSubmit={handleSubmit}
       className={cn(
         "glass group flex w-full items-center gap-2 px-3 py-2",
@@ -56,24 +65,28 @@ export function AskInput({ onAsk, disabled = false }: AskInputProps) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-y-0 left-2 flex items-center text-base font-normal wdth-normal text-ink/45"
           >
-            <BlurOutUp text={messages.placeholder} />
+            <LocaleFade>
+              <BlurOutUp text={messages.placeholder} />
+            </LocaleFade>
           </span>
         ) : null}
       </div>
-      <button
+      <motion.button
         type="submit"
         aria-label={messages.sendAria}
-        disabled={disabled || !value.trim()}
+        disabled={!canSend}
+        whileHover={canSend ? interactiveHover : undefined}
+        whileTap={canSend ? interactiveTap : undefined}
         className={cn(
           "flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full",
           "bg-splat-blue text-white shadow-md",
-          "transition-colors duration-200 hover:bg-[#3b5de0]",
+          "hover:bg-[#3b5de0]",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/80 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
       >
         <ArrowUp className="h-5 w-5" aria-hidden="true" strokeWidth={2.25} />
-      </button>
-    </form>
+      </motion.button>
+    </motion.form>
   );
 }

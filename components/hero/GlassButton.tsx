@@ -1,6 +1,12 @@
 "use client";
 
+import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
+import {
+  heroItem,
+  interactiveHover,
+  interactiveTap,
+} from "@/lib/motion-variants";
 import { cn } from "@/lib/utils";
 
 interface GlassButtonProps {
@@ -17,10 +23,13 @@ export function GlassButton({
   disabled = false,
 }: GlassButtonProps) {
   return (
-    <button
+    <motion.button
       type="button"
+      variants={heroItem}
       onClick={onClick}
       disabled={disabled}
+      whileHover={disabled ? undefined : interactiveHover}
+      whileTap={disabled ? undefined : interactiveTap}
       className={cn(
         "glass inline-flex cursor-pointer items-center gap-2 px-3.5 py-2.5 text-sm font-medium wdth-normal text-ink",
         "bg-white/10",
@@ -32,6 +41,6 @@ export function GlassButton({
     >
       <Icon className="h-4 w-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
       <span>{label}</span>
-    </button>
+    </motion.button>
   );
 }

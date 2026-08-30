@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { cyrillicFallback, neueMontreal } from "@/app/fonts";
+import { MotionProvider } from "@/components/motion-provider";
 import { routing } from "@/i18n/routing";
 
 type Props = {
@@ -51,9 +52,11 @@ export default async function LocaleLayout({ children, params }: Props) {
       className={`${neueMontreal.variable} ${cyrillicFallback.variable}`}
     >
       <body>
-        <NextIntlClientProvider messages={messages}>
-          {children}
-        </NextIntlClientProvider>
+        <MotionProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </MotionProvider>
       </body>
     </html>
   );
