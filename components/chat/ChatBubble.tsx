@@ -1,8 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { MessageAttachments } from "@/components/chat/MessageAttachments";
 import type { ChatAttachments } from "@/lib/chat";
 import { cn } from "@/lib/utils";
+
+const BotMarkdown = dynamic(
+  () =>
+    import("@/components/chat/BotMarkdown").then((mod) => mod.BotMarkdown),
+);
 
 type ChatBubbleProps = {
   text: string;
@@ -22,14 +28,11 @@ export function ChatBubble({
   return (
     <article
       className={cn(
-        "glass w-full min-w-0 px-4 py-3 text-left",
-        "bg-white/10 backdrop-blur-md backdrop-saturate-150",
-        "border border-white/20 shadow-lg",
+        "glass w-full min-w-0 px-4 py-3 text-left shadow-lg",
+        "bg-white/10 border border-white/20",
       )}
     >
-      <p className="whitespace-pre-wrap text-sm font-normal leading-relaxed wdth-normal text-ink md:text-[0.95rem]">
-        {text}
-      </p>
+      <BotMarkdown text={text} />
       <MessageAttachments
         attachments={attachments}
         openDemoLabel={openDemoLabel}

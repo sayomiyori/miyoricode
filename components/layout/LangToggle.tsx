@@ -15,7 +15,7 @@ export function LangToggle() {
       aria-label={messages.langAria}
       className={cn(
         "glass fixed right-5 top-5 z-20 flex items-center p-1 sm:right-6 sm:top-6",
-        "bg-white/10 backdrop-blur-md backdrop-saturate-150",
+        "bg-white/10",
         "border border-white/20 shadow-lg",
       )}
     >

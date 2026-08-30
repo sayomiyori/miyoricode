@@ -23,7 +23,7 @@ export function GlassButton({
       disabled={disabled}
       className={cn(
         "glass inline-flex cursor-pointer items-center gap-2 px-3.5 py-2.5 text-sm font-medium wdth-normal text-ink",
-        "bg-white/10 backdrop-blur-md backdrop-saturate-150",
+        "bg-white/10",
         "border border-white/20 shadow-lg",
         "transition-colors duration-200 hover:bg-white/20",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",

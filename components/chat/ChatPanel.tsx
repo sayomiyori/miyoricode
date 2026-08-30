@@ -14,7 +14,7 @@ export function ChatPanel() {
     <div className="flex w-full min-w-0 flex-col items-stretch">
       {turns.length > 0 || pending ? (
         <div
-          className="mb-4 flex min-w-0 flex-col gap-3 overflow-x-hidden"
+          className="mb-4 -mx-2 flex min-w-0 flex-col gap-3 overflow-x-hidden px-2 py-1.5"
           aria-live="polite"
         >
           {turns.map((turn) =>
@@ -22,9 +22,8 @@ export function ChatPanel() {
               <p
                 key={turn.id}
                 className={cn(
-                  "glass ml-auto max-w-[85%] px-3.5 py-2 text-left text-sm",
-                  "bg-white/10 backdrop-blur-md backdrop-saturate-150",
-                  "border border-white/20 shadow-lg wdth-normal text-ink",
+                  "glass ml-auto max-w-[85%] px-3.5 py-2 text-left text-sm shadow-lg",
+                  "bg-white/10 border border-white/20 wdth-normal text-ink",
                 )}
               >
                 {turn.text}
@@ -43,9 +42,8 @@ export function ChatPanel() {
           {pending ? (
             <div
               className={cn(
-                "glass w-fit px-4 py-3 text-left text-sm text-ink/70",
-                "bg-white/10 backdrop-blur-md backdrop-saturate-150",
-                "border border-white/20 shadow-lg",
+                "glass w-fit px-4 py-3 text-left text-sm text-ink/70 shadow-lg",
+                "bg-white/10 border border-white/20",
               )}
               aria-busy="true"
             >

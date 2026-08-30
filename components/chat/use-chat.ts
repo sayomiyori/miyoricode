@@ -59,6 +59,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
 
       setTurns((current) => [...current, userTurn]);
       setPending(true);
+      void import("@/components/chat/BotMarkdown");
 
       try {
         const response = await postChat(trimmed, lang, sessionId);

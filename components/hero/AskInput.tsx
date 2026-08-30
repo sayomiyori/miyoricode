@@ -28,7 +28,7 @@ export function AskInput({ onAsk, disabled = false }: AskInputProps) {
       onSubmit={handleSubmit}
       className={cn(
         "glass group flex w-full items-center gap-2 px-3 py-2",
-        "bg-white/10 backdrop-blur-md backdrop-saturate-150",
+        "bg-white/10",
         "border border-white/20 shadow-lg",
         "transition-colors duration-200",
         "focus-within:border-blue-400/40",

@@ -7,7 +7,7 @@ export function Logo() {
       <div
         className={cn(
           "glass flex h-12 w-12 items-center justify-center p-0.5",
-          "bg-white/10 backdrop-blur-md backdrop-saturate-150",
+          "bg-white/10",
           "border border-white/20 shadow-lg",
         )}
       >
