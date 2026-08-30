@@ -33,7 +33,7 @@ function persistSession(sessionId: string): void {
 }
 
 export function useChat(lang: "en" | "ru", errorFallback: string) {
-  const [turns, setTurns] = useState<ChatTurn[]>(readStoredHistory);
+  const [turns, setTurns] = useState<ChatTurn[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -44,7 +44,7 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
   useLayoutEffect(() => {
     const stored = readStoredHistory();
     if (stored.length === 0) return;
-    setTurns((current) => (current.length === 0 ? stored : current));
+    setTurns(stored);
   }, []);
 
   const commitTurns = useCallback(

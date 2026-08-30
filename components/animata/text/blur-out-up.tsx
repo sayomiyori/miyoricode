@@ -86,7 +86,8 @@ export function countAnimatableUnits(
   text: string,
   target: TextAnimationSpec["target"] = "per-word",
 ): number {
-  return splitTextByTarget(text, target).filter((part) => part.animate).length;
+  return (splitTextByTarget(text, target) ?? []).filter((part) => part.animate)
+    .length;
 }
 
 function toKeyframe(

@@ -37,9 +37,9 @@ export function MessageAttachments({
     attachments.link && isSafeHttpUrl(attachments.link)
       ? attachments.link
       : null;
-  const images = (attachments.images ?? []).filter((image) =>
-    isSafeImageUrl(image.url),
-  );
+  const images = (
+    Array.isArray(attachments.images) ? attachments.images : []
+  ).filter((image) => isSafeImageUrl(image.url));
 
   if (!link && images.length === 0) {
     return null;

@@ -37,24 +37,28 @@ export function ChatBubble({
   return (
     <article
       className={cn(
-        "glass w-full min-w-0 px-4 py-3 text-left shadow-lg",
+        "glass flex w-full min-w-0 flex-col px-4 py-3 text-left shadow-lg",
         "bg-white/10 border border-white/20",
       )}
     >
-      <BotMarkdown text={text} />
+      <div className="min-w-0 w-full">
+        <BotMarkdown text={text} />
+      </div>
       <MessageAttachments
         attachments={attachments}
         openDemoLabel={openDemoLabel}
         closePreviewLabel={closePreviewLabel}
         previewTitle={previewTitle}
       />
-      <ProjectCarousel
-        card={card}
-        closeLabel={closeProjectLabel}
-        demoLabel={openDemoLabel}
-        linksLabel={projectLinksLabel}
-        screenshotsLabel={projectScreenshotsLabel}
-      />
+      <div className="w-full min-w-0 shrink-0">
+        <ProjectCarousel
+          card={card}
+          closeLabel={closeProjectLabel}
+          demoLabel={openDemoLabel}
+          linksLabel={projectLinksLabel}
+          screenshotsLabel={projectScreenshotsLabel}
+        />
+      </div>
     </article>
   );
 }

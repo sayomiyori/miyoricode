@@ -1,4 +1,4 @@
-import type { ChatResponse } from "@/lib/chat";
+import { sanitizeAttachments, sanitizeCard, type ChatResponse } from "@/lib/chat";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -21,8 +21,8 @@ export function parseChatPayload(payload: unknown): ChatResponse {
   }
   return {
     ...payload,
-    attachments: payload.attachments ?? null,
-    card: payload.card ?? null,
+    attachments: sanitizeAttachments(payload.attachments),
+    card: sanitizeCard(payload.card),
   };
 }
 

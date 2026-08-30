@@ -56,8 +56,13 @@ export function ProjectModal({
 
   const demo =
     item.link && isSafeHttpUrl(item.link) ? item.link : null;
-  const links = item.links.filter((link) => isSafeHttpUrl(link.url));
-  const shots = item.screenshots.filter((shot) => isSafeImageUrl(shot.url));
+  const links = (Array.isArray(item.links) ? item.links : []).filter((link) =>
+    isSafeHttpUrl(link.url),
+  );
+  const shots = (Array.isArray(item.screenshots) ? item.screenshots : []).filter(
+    (shot) => isSafeImageUrl(shot.url),
+  );
+  const technologies = Array.isArray(item.technologies) ? item.technologies : [];
   const hasLinks = Boolean(demo) || links.length > 0;
 
   if (typeof document === "undefined") {
@@ -117,9 +122,9 @@ export function ProjectModal({
           {item.description}
         </p>
 
-        {item.technologies.length > 0 ? (
+        {technologies.length > 0 ? (
           <ul className="mt-4 flex flex-wrap gap-2">
-            {item.technologies.map((tech) => (
+            {technologies.map((tech) => (
               <li
                 key={tech}
                 className="rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-xs text-ink/80"
