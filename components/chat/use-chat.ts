@@ -1,9 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { postChat } from "@/lib/chat-api";
 import { readStoredHistory, writeStoredHistory } from "@/lib/chat-history";
-import type { ChatTurn } from "@/lib/chat";
+import {
+  sanitizeAttachments,
+  sanitizeCard,
+  type ChatTurn,
+} from "@/lib/chat";
 
 const SESSION_STORAGE_KEY = "miyori-session-id";
 
@@ -32,10 +36,19 @@ function persistSession(sessionId: string): void {
   }
 }
 
+function guardrailReasonToMessage(reason: string | null | undefined, fallback: string): string {
+  if (!reason) return fallback;
+  if (reason === "output_filter" || reason === "rate_limited") {
+    return fallback;
+  }
+  return fallback;
+}
+
 export function useChat(lang: "en" | "ru", errorFallback: string) {
   const [turns, setTurns] = useState<ChatTurn[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
+  const streamingTurnIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     setSessionId(readStoredSession());
@@ -64,6 +77,17 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
     persistSession(next);
   }, []);
 
+  const finalizeStreamingTurn = useCallback(
+    (mutate: (turn: ChatTurn) => ChatTurn | null) => {
+      const streamingId = streamingTurnIdRef.current;
+      if (!streamingId) return;
+      commitTurns((current) =>
+        current.map((turn) => (turn.id === streamingId ? mutate(turn) ?? turn : turn)),
+      );
+    },
+    [commitTurns],
+  );
+
   const send = useCallback(
     async (message: string) => {
       const trimmed = message.trim();
@@ -74,40 +98,74 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
         role: "user",
         text: trimmed,
       };
+      const botTurn: ChatTurn = {
+        id: nextId(),
+        role: "bot",
+        text: "",
+        attachments: null,
+        card: null,
+      };
+      streamingTurnIdRef.current = botTurn.id;
 
-      commitTurns((current) => [...current, userTurn]);
+      commitTurns((current) => [...current, userTurn, botTurn]);
       setPending(true);
       void import("@/components/chat/BotMarkdown");
 
       try {
-        const response = await postChat(trimmed, lang, sessionId);
-        rememberSession(response.session_id);
-        commitTurns((current) => [
-          ...current,
-          {
-            id: nextId(),
-            role: "bot",
-            text: response.reply,
-            attachments: response.attachments,
-            card: response.card,
+        await postChat(trimmed, lang, sessionId, {
+          onMetadata: (meta) => {
+            rememberSession(meta.session_id);
+            finalizeStreamingTurn((turn) => ({
+              ...turn,
+              attachments: sanitizeAttachments(meta.attachments),
+              card: sanitizeCard(meta.card),
+            }));
           },
-        ]);
+          onToken: (text) => {
+            finalizeStreamingTurn((turn) => ({
+              ...turn,
+              text: turn.text + text,
+            }));
+          },
+          onDone: (done) => {
+            rememberSession(done.session_id);
+            if (done.reason === "output_filter") {
+              finalizeStreamingTurn((turn) =>
+                turn.text.length > 0
+                  ? turn
+                  : { ...turn, text: guardrailReasonToMessage(done.reason, errorFallback) },
+              );
+            }
+          },
+        });
       } catch {
-        commitTurns((current) => [
-          ...current,
-          {
-            id: nextId(),
-            role: "bot",
-            text: errorFallback,
-            attachments: null,
-            card: null,
-          },
-        ]);
+        const streamingId = streamingTurnIdRef.current;
+        commitTurns((current) =>
+          current.map((turn) =>
+            turn.id === streamingId
+              ? {
+                  ...turn,
+                  text: turn.text.length > 0 ? turn.text : errorFallback,
+                  attachments: null,
+                  card: null,
+                }
+              : turn,
+          ),
+        );
       } finally {
+        streamingTurnIdRef.current = null;
         setPending(false);
       }
     },
-    [commitTurns, errorFallback, lang, pending, rememberSession, sessionId],
+    [
+      commitTurns,
+      errorFallback,
+      finalizeStreamingTurn,
+      lang,
+      pending,
+      rememberSession,
+      sessionId,
+    ],
   );
 
   return { turns, pending, send };
