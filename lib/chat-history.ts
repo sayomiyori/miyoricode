@@ -29,10 +29,10 @@ function extractTurns(parsed: unknown): unknown[] | null {
   return envelope.turns;
 }
 
-export function readStoredHistory(): ChatTurn[] {
+function readStoredHistoryRaw(key: string): ChatTurn[] {
   try {
     if (typeof window === "undefined") return [];
-    const raw = window.sessionStorage.getItem(CHAT_HISTORY_KEY);
+    const raw = window.sessionStorage.getItem(key);
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     const turns = extractTurns(parsed);
@@ -43,15 +43,37 @@ export function readStoredHistory(): ChatTurn[] {
   }
 }
 
-export function writeStoredHistory(turns: ChatTurn[]): void {
+function writeStoredHistoryRaw(key: string, turns: ChatTurn[]): void {
   try {
     if (typeof window === "undefined") return;
     const payload: PersistedHistory = {
       v: CHAT_HISTORY_VERSION,
       turns: turns.map(toPersistedTurn),
     };
-    window.sessionStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(payload));
+    window.sessionStorage.setItem(key, JSON.stringify(payload));
   } catch {
     // private mode / quota — in-memory history still works for this mount
   }
+}
+
+export function readStoredHistory(): ChatTurn[] {
+  return readStoredHistoryRaw(CHAT_HISTORY_KEY);
+}
+
+export function writeStoredHistory(turns: ChatTurn[]): void {
+  writeStoredHistoryRaw(CHAT_HISTORY_KEY, turns);
+}
+
+export const TOPIC_CHAT_KEY_PREFIX = "topic-chat";
+
+export function topicChatKey(topic: string): string {
+  return `${TOPIC_CHAT_KEY_PREFIX}:${topic}`;
+}
+
+export function readTopicHistory(topic: string): ChatTurn[] {
+  return readStoredHistoryRaw(topicChatKey(topic));
+}
+
+export function writeTopicHistory(topic: string, turns: ChatTurn[]): void {
+  writeStoredHistoryRaw(topicChatKey(topic), turns);
 }

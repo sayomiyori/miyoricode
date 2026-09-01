@@ -30,6 +30,7 @@ export type ChatHandlers = {
 
 export type ChatPostOptions = ChatHandlers & {
   signal?: AbortSignal;
+  topic?: string;
 };
 
 /**
@@ -197,7 +198,7 @@ export async function postChat(
   sessionId: string | null,
   options: ChatPostOptions = {},
 ): Promise<void> {
-  const { onMetadata, onToken, onDone, signal } = options;
+  const { onMetadata, onToken, onDone, signal, topic } = options;
   const handlers: ChatHandlers = { onMetadata, onToken, onDone };
 
   let response: Response;
@@ -210,6 +211,7 @@ export async function postChat(
         message,
         lang,
         session_id: sessionId,
+        ...(topic ? { topic } : {}),
       }),
       signal,
     });

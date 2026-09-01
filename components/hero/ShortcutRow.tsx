@@ -1,10 +1,8 @@
 "use client";
 
 import { Briefcase, Layers, Smile, Sparkles, User } from "lucide-react";
-import { useChatContext } from "@/components/chat/chat-context";
-import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
-import { SHORTCUT_PROMPTS, type ShortcutKey } from "@/lib/shortcut-prompts";
-import { GlassButton } from "./GlassButton";
+import { type ShortcutKey } from "@/lib/shortcut-prompts";
+import { ShortcutLink } from "./ShortcutLink";
 
 const SHORTCUTS: { key: ShortcutKey; label: string; icon: typeof Smile }[] = [
   { key: "me", label: "Me", icon: Smile },
@@ -15,24 +13,17 @@ const SHORTCUTS: { key: ShortcutKey; label: string; icon: typeof Smile }[] = [
 ];
 
 export function ShortcutRow() {
-  const { displayLocale } = useLocaleSwitch();
-  const { send, pending } = useChatContext();
-  const prompts = SHORTCUT_PROMPTS[displayLocale];
-
   return (
     <nav
       aria-label="Shortcuts"
       className="mt-5 flex w-full flex-wrap items-center justify-center gap-2"
     >
       {SHORTCUTS.map((item) => (
-        <GlassButton
+        <ShortcutLink
           key={item.key}
           icon={item.icon}
           label={item.label}
-          disabled={pending}
-          onClick={() => {
-            void send(prompts[item.key]);
-          }}
+          href={`/topic/${item.key}`}
         />
       ))}
     </nav>
