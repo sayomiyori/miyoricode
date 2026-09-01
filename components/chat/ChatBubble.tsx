@@ -3,8 +3,9 @@
 import dynamic from "next/dynamic";
 import { MessageAttachments } from "@/components/chat/MessageAttachments";
 import { ProjectCarousel } from "@/components/projects/ProjectCarousel";
+import { ProjectsShowcase } from "@/components/projects/ProjectsShowcase";
 import { LocaleFade } from "@/components/layout/LocaleFade";
-import type { ChatAttachments, ChatCard } from "@/lib/chat";
+import { hasRenderableCard, type ChatAttachments, type ChatCard } from "@/lib/chat";
 import { cn } from "@/lib/utils";
 
 const BotMarkdown = dynamic(
@@ -38,38 +39,68 @@ export function ChatBubble({
   thinkingLabel,
 }: ChatBubbleProps) {
   const isThinking = text.length === 0;
+  const hasCard = hasRenderableCard(card);
   return (
     <article
       className={cn(
-        "glass flex w-full min-w-0 flex-col px-4 py-3 text-left shadow-lg",
+        "glass flex w-full min-w-0 flex-col text-left shadow-lg",
         "bg-white/10 border border-white/20",
+        hasCard ? "gap-4 px-4 py-4" : "gap-2 px-4 py-3",
+        hasCard && "min-w-[20rem] sm:min-w-[34rem]",
       )}
       aria-busy={isThinking}
     >
-      <div className="min-w-0 w-full">
-        {isThinking ? (
-          <span className="motion-safe:animate-pulse text-ink/70 text-sm">
-            <LocaleFade>{thinkingLabel}</LocaleFade>
-          </span>
-        ) : (
-          <BotMarkdown text={text} />
-        )}
-      </div>
-      <MessageAttachments
-        attachments={attachments}
-        openDemoLabel={openDemoLabel}
-        closePreviewLabel={closePreviewLabel}
-        previewTitle={previewTitle}
-      />
-      <div className="w-full min-w-0 shrink-0">
-        <ProjectCarousel
-          card={card}
-          closeLabel={closeProjectLabel}
-          demoLabel={openDemoLabel}
-          linksLabel={projectLinksLabel}
-          screenshotsLabel={projectScreenshotsLabel}
-        />
-      </div>
+      {hasCard ? (
+        <>
+          <ProjectsShowcase
+            card={card}
+            closeLabel={closeProjectLabel}
+            demoLabel={openDemoLabel}
+            linksLabel={projectLinksLabel}
+            screenshotsLabel={projectScreenshotsLabel}
+          />
+          {isThinking ? (
+            <span className="motion-safe:animate-pulse text-ink/70 text-sm">
+              <LocaleFade>{thinkingLabel}</LocaleFade>
+            </span>
+          ) : (
+            <BotMarkdown text={text} />
+          )}
+          <MessageAttachments
+            attachments={attachments}
+            openDemoLabel={openDemoLabel}
+            closePreviewLabel={closePreviewLabel}
+            previewTitle={previewTitle}
+          />
+        </>
+      ) : (
+        <>
+          <div className="min-w-0 w-full">
+            {isThinking ? (
+              <span className="motion-safe:animate-pulse text-ink/70 text-sm">
+                <LocaleFade>{thinkingLabel}</LocaleFade>
+              </span>
+            ) : (
+              <BotMarkdown text={text} />
+            )}
+          </div>
+          <MessageAttachments
+            attachments={attachments}
+            openDemoLabel={openDemoLabel}
+            closePreviewLabel={closePreviewLabel}
+            previewTitle={previewTitle}
+          />
+          <div className="w-full min-w-0 shrink-0">
+            <ProjectCarousel
+              card={card}
+              closeLabel={closeProjectLabel}
+              demoLabel={openDemoLabel}
+              linksLabel={projectLinksLabel}
+              screenshotsLabel={projectScreenshotsLabel}
+            />
+          </div>
+        </>
+      )}
     </article>
   );
 }

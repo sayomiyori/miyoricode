@@ -13,7 +13,9 @@
     "chatError": "Couldn't reach the chat. Try again.",
     "closeProject": "Close project",
     "projectLinks": "Links",
-    "projectScreenshots": "Screenshots"
+    "projectScreenshots": "Screenshots",
+    "projectsEyebrow": "Portfolio",
+    "projectsTitle": "My Projects"
   },
   "Metadata": {
     "title": "Matvey — Backend / LLM Engineer",
