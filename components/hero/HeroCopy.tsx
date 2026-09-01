@@ -24,11 +24,11 @@ export function HeroCopy() {
       </motion.p>
       <motion.h1
         variants={heroItem}
-        className="mt-2 font-display wdth-condensed text-4xl font-bold leading-[1.05] text-ink sm:text-5xl"
+        className="mt-2 font-display wdth-condensed text-4xl font-bold leading-[1.05] sm:text-5xl"
       >
         <LocaleFade>
           <span className="bg-gradient-to-r from-ink via-splat-blue to-splat-pink bg-clip-text text-transparent">
-            <BlurOutUp text={messages.role} />
+            {messages.role}
           </span>
         </LocaleFade>
       </motion.h1>
