@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   html,
   body {
     min-height: 100%;
@@ -10,6 +14,10 @@
 
   body {
     @apply bg-white font-body text-ink antialiased;
+  }
+
+  * {
+    @apply transition-colors duration-200;
   }
 }
 

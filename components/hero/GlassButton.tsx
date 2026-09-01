@@ -31,16 +31,21 @@ export function GlassButton({
       whileHover={disabled ? undefined : interactiveHover}
       whileTap={disabled ? undefined : interactiveTap}
       className={cn(
+        "group relative overflow-hidden",
         "glass inline-flex cursor-pointer items-center gap-2 px-3.5 py-2.5 text-sm font-medium wdth-normal text-ink",
-        "bg-white/10",
-        "border border-white/20 shadow-lg",
-        "transition-colors duration-200 hover:bg-white/20",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
+        "bg-white/10 border border-white/20 shadow-lg",
+        "transition-all duration-300 ease-out hover:border-white/35 hover:bg-white/20 hover:shadow-xl",
         "disabled:cursor-not-allowed disabled:opacity-50",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
       )}
     >
-      <Icon className="h-4 w-4 shrink-0" aria-hidden="true" strokeWidth={1.75} />
-      <span>{label}</span>
+      <span className="absolute inset-0 bg-gradient-to-r from-splat-blue/10 to-splat-pink/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <Icon
+        className="relative z-10 h-4 w-4 shrink-0 transition-transform duration-300 group-hover:scale-110"
+        aria-hidden="true"
+        strokeWidth={1.75}
+      />
+      <span className="relative z-10">{label}</span>
     </motion.button>
   );
 }
