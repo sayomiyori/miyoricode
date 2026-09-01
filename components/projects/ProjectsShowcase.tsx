@@ -54,7 +54,7 @@ export function ProjectsShowcase({
   }
 
   const items = card.items;
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
   const totalPages = Math.ceil(items.length / itemsPerPage);
   const startIndex = page * itemsPerPage;
   const visibleItems = items.slice(startIndex, startIndex + itemsPerPage);
@@ -107,7 +107,7 @@ export function ProjectsShowcase({
 
       <motion.div
         key={page}
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
@@ -122,7 +122,7 @@ export function ProjectsShowcase({
             transition={{ delay: index * 0.08, duration: 0.3 }}
             whileHover={{ scale: 1.03, y: -4 }}
             className={cn(
-              "group relative aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl text-left",
+              "group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-2xl text-left",
               "shadow-xl",
               "transition-shadow duration-300 hover:shadow-2xl",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
@@ -131,17 +131,17 @@ export function ProjectsShowcase({
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-            <div className="absolute left-4 top-4 z-10">
-              <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium tracking-wide text-white backdrop-blur-md">
+            <div className="absolute left-3 top-3 z-10">
+              <span className="rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-md">
                 {item.category}
               </span>
             </div>
 
-            <div className="absolute inset-x-4 bottom-4 z-10 text-white">
-              <h3 className="font-display text-2xl font-bold leading-tight tracking-tight drop-shadow-lg">
+            <div className="absolute inset-x-3 bottom-3 z-10 text-white">
+              <h3 className="font-display text-lg font-bold leading-tight tracking-tight drop-shadow-lg sm:text-xl">
                 {item.title}
               </h3>
-              <p className="mt-1 text-xs font-medium uppercase tracking-wider text-white/80">
+              <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-white/80">
                 {item.year}
               </p>
             </div>

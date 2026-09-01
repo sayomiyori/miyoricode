@@ -46,7 +46,7 @@ export function ChatBubble({
         "glass flex w-full min-w-0 flex-col text-left shadow-lg",
         "bg-white/10 border border-white/20",
         hasCard ? "gap-4 px-4 py-4" : "gap-2 px-4 py-3",
-        hasCard && "min-w-[20rem] sm:min-w-[34rem]",
+        hasCard && "min-w-[20rem] sm:min-w-[48rem]",
       )}
       aria-busy={isThinking}
     >

@@ -12,6 +12,8 @@ import { Watermark } from "@/components/hero/Watermark";
 import { LangToggle } from "@/components/layout/LangToggle";
 import { LocaleSwitchProvider } from "@/components/layout/LocaleSwitchProvider";
 import { TopicVisualContent } from "./TopicVisualContent";
+import { ProjectsPreview } from "@/components/projects/ProjectsPreview";
+import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import {
   heroContainer,
   heroItem,
@@ -34,9 +36,27 @@ type Props = {
   topic: string;
 };
 
+function ProjectsSection() {
+  const { messages } = useLocaleSwitch();
+  return (
+    <motion.div
+      variants={heroItem}
+      className="mt-6 w-full max-w-[52rem]"
+    >
+      <ProjectsPreview
+        closeLabel={messages.closeProject}
+        demoLabel={messages.openDemo}
+        linksLabel={messages.projectLinks}
+        screenshotsLabel={messages.projectScreenshots}
+      />
+    </motion.div>
+  );
+}
+
 export function TopicPage({ topic }: Props) {
   const playEntrance = useRef(shouldPlayHeroEntrance());
   const hasVisuals = TOPICS_WITH_VISUALS.includes(topic);
+  const isProjects = topic === "projects";
 
   return (
     <LocaleSwitchProvider>
@@ -45,7 +65,10 @@ export function TopicPage({ topic }: Props) {
         <LangToggle />
         <main className="relative z-10 flex min-h-dvh items-center justify-center overflow-x-hidden px-5 py-16">
           <motion.div
-            className="flex w-full min-w-0 max-w-[600px] flex-col items-center text-center"
+            className={cn(
+              "flex w-full min-w-0 flex-col items-center text-center",
+              isProjects ? "max-w-[56rem]" : "max-w-[600px]",
+            )}
             variants={heroContainer}
             initial={playEntrance.current ? "hidden" : false}
             animate="visible"
@@ -63,7 +86,9 @@ export function TopicPage({ topic }: Props) {
               </h1>
             </motion.div>
 
-            {!hasVisuals && (
+            {isProjects && <ProjectsSection />}
+
+            {!hasVisuals && !isProjects && (
               <motion.div variants={heroItem} className="mt-6 w-full">
                 <AvatarTilt />
               </motion.div>

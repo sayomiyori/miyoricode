@@ -29,7 +29,7 @@ export function Hero() {
       <LangToggle />
       <main className="relative z-10 flex min-h-dvh items-center justify-center overflow-x-hidden px-5 py-16">
         <motion.div
-          className="flex w-full min-w-0 max-w-[36rem] flex-col items-center text-center"
+          className="flex w-full min-w-0 max-w-[52rem] flex-col items-center text-center"
           variants={heroContainer}
           initial={playEntrance.current ? "hidden" : false}
           animate="visible"
