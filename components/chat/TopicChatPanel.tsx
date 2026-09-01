@@ -5,16 +5,36 @@ import { ChatEnter } from "@/components/chat/ChatEnter";
 import { AskInput } from "@/components/hero/AskInput";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { useTopicChatContext } from "@/components/chat/topic-chat-context";
+import { ProjectsPreview } from "@/components/projects/ProjectsPreview";
+import { useTopicContext } from "@/components/topic/topic-context";
 import { cn } from "@/lib/utils";
 
 export function TopicChatPanel() {
   const { messages } = useLocaleSwitch();
   const { turns, pending, send } = useTopicChatContext();
+  const { topic } = useTopicContext();
 
-  if (turns.length === 0 && !pending) return null;
+  const hasOnlyError =
+    turns.length > 0 &&
+    turns.every((t) => t.text === messages.chatError);
+
+  // For projects topic, always show preview at the top
+  const showProjectsPreview = topic === "projects";
+
+  if (turns.length === 0 && !pending && !showProjectsPreview) return null;
 
   return (
     <div className="flex w-full min-w-0 flex-col items-stretch">
+      {showProjectsPreview && (
+        <div className="mb-4 w-full">
+          <ProjectsPreview
+            closeLabel={messages.closeProject}
+            demoLabel={messages.openDemo}
+            linksLabel={messages.projectLinks}
+            screenshotsLabel={messages.projectScreenshots}
+          />
+        </div>
+      )}
       <div
         className="mb-4 -mx-2 flex min-w-0 flex-col gap-3 overflow-x-hidden px-2 py-1.5"
         aria-live="polite"
