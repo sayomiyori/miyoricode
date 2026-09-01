@@ -4,7 +4,6 @@ import { ChatBubble } from "@/components/chat/ChatBubble";
 import { ChatEnter } from "@/components/chat/ChatEnter";
 import { useChatContext } from "@/components/chat/chat-context";
 import { AskInput } from "@/components/hero/AskInput";
-import { LocaleFade } from "@/components/layout/LocaleFade";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { cn } from "@/lib/utils";
 
@@ -47,26 +46,12 @@ export function ChatPanel() {
                   closeProjectLabel={messages.closeProject}
                   projectLinksLabel={messages.projectLinks}
                   projectScreenshotsLabel={messages.projectScreenshots}
+                  thinkingLabel={messages.thinking}
                 />
               </ChatEnter>
             ),
           )}
-          {pending ? (
-            <ChatEnter>
-              <div
-                className={cn(
-                  "glass w-fit px-4 py-3 text-left text-sm text-ink/70 shadow-lg",
-                  "bg-white/10 border border-white/20",
-                )}
-                aria-busy="true"
-              >
-                <span className="motion-safe:animate-pulse">
-                  <LocaleFade>{messages.thinking}</LocaleFade>
-                </span>
-              </div>
-            </ChatEnter>
-          ) : null}
-        </div>
+          </div>
       ) : null}
       <AskInput onAsk={send} disabled={pending} />
     </div>

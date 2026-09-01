@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { MessageAttachments } from "@/components/chat/MessageAttachments";
 import { ProjectCarousel } from "@/components/projects/ProjectCarousel";
+import { LocaleFade } from "@/components/layout/LocaleFade";
 import type { ChatAttachments, ChatCard } from "@/lib/chat";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ type ChatBubbleProps = {
   closeProjectLabel: string;
   projectLinksLabel: string;
   projectScreenshotsLabel: string;
+  thinkingLabel: string;
 };
 
 export function ChatBubble({
@@ -33,16 +35,25 @@ export function ChatBubble({
   closeProjectLabel,
   projectLinksLabel,
   projectScreenshotsLabel,
+  thinkingLabel,
 }: ChatBubbleProps) {
+  const isThinking = text.length === 0;
   return (
     <article
       className={cn(
         "glass flex w-full min-w-0 flex-col px-4 py-3 text-left shadow-lg",
         "bg-white/10 border border-white/20",
       )}
+      aria-busy={isThinking}
     >
       <div className="min-w-0 w-full">
-        <BotMarkdown text={text} />
+        {isThinking ? (
+          <span className="motion-safe:animate-pulse text-ink/70 text-sm">
+            <LocaleFade>{thinkingLabel}</LocaleFade>
+          </span>
+        ) : (
+          <BotMarkdown text={text} />
+        )}
       </div>
       <MessageAttachments
         attachments={attachments}
