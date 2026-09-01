@@ -188,6 +188,7 @@ export default function BlurOutUp({
   const [phase, setPhase] = useState<"idle" | "exiting" | "entering">("idle");
   const pendingRef = useRef(text);
   const animationsRef = useRef<Animation[]>([]);
+  const isFirstRender = useRef(true);
 
   function cancelAnimations() {
     animationsRef.current.forEach((animation) => animation.cancel());
@@ -195,6 +196,10 @@ export default function BlurOutUp({
   }
 
   useLayoutEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     if (text === visible && phase === "idle") return;
     if (text === visible) return;
     pendingRef.current = text;

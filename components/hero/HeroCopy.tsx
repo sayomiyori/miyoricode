@@ -5,7 +5,6 @@ import BlurOutUp from "@/components/animata/text/blur-out-up";
 import { LocaleFade } from "@/components/layout/LocaleFade";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { heroItem } from "@/lib/motion-variants";
-import { cn } from "@/lib/utils";
 
 export function HeroCopy() {
   const { messages } = useLocaleSwitch();
@@ -25,13 +24,12 @@ export function HeroCopy() {
       </motion.p>
       <motion.h1
         variants={heroItem}
-        className={cn(
-          "mt-2 font-display wdth-condensed text-4xl font-bold leading-[1.05] sm:text-5xl",
-          "bg-gradient-to-r from-ink via-splat-blue to-splat-pink bg-clip-text text-transparent",
-        )}
+        className="mt-2 font-display wdth-condensed text-4xl font-bold leading-[1.05] text-ink sm:text-5xl"
       >
         <LocaleFade>
-          <BlurOutUp text={messages.role} />
+          <span className="bg-gradient-to-r from-ink via-splat-blue to-splat-pink bg-clip-text text-transparent">
+            <BlurOutUp text={messages.role} />
+          </span>
         </LocaleFade>
       </motion.h1>
     </>
