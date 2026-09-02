@@ -41,6 +41,7 @@ export function TopicChatPanel() {
                 text={turn.text}
                 attachments={turn.attachments}
                 card={turn.card}
+                pending={pending}
                 openDemoLabel={messages.openDemo}
                 closePreviewLabel={messages.closePreview}
                 previewTitle={messages.previewTitle}

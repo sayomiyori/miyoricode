@@ -43,13 +43,15 @@ function getCoverStyle(item: CarouselItem): string {
 }
 
 function getMascotUrl(item: CarouselItem): string | null {
-  if (item.cover_image && item.cover_image.startsWith("/projects/")) {
-    return item.cover_image;
-  }
+  // 1. Local mascot by title (always wins for known projects)
   const titleKey = item.title.toLowerCase().replace(/\s+/g, "-");
   if (MASCOT_PRESETS[titleKey]) return MASCOT_PRESETS[titleKey];
   for (const key of Object.keys(MASCOT_PRESETS)) {
     if (titleKey.includes(key)) return MASCOT_PRESETS[key];
+  }
+  // 2. Cover image from API if it's a local project asset
+  if (item.cover_image && item.cover_image.startsWith("/projects/")) {
+    return item.cover_image;
   }
   return null;
 }

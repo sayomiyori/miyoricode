@@ -25,6 +25,7 @@ type ChatBubbleProps = {
   text: string;
   attachments?: ChatAttachments | null;
   card?: ChatCard | null;
+  pending?: boolean;
   openDemoLabel: string;
   closePreviewLabel: string;
   previewTitle: string;
@@ -42,6 +43,7 @@ export function ChatBubble({
   text,
   attachments,
   card,
+  pending = false,
   openDemoLabel,
   closePreviewLabel,
   previewTitle,
@@ -54,7 +56,10 @@ export function ChatBubble({
   technologiesLabel,
   yearLabel,
 }: ChatBubbleProps) {
-  const isThinking = text.length === 0;
+  // Show "thinking" only while a stream is still in flight and we have no
+  // visible content yet. Once card/attachments/text arrive, the response is
+  // already delivered — keep the bubble as-is even if pending flickers.
+  const isThinking = pending && text.length === 0 && !card && !attachments;
   const hasCard = hasRenderableCard(card);
   const [open, setOpen] = useState<CarouselItem | null>(null);
 
