@@ -34,6 +34,8 @@ type ChatBubbleProps = {
   thinkingLabel: string;
   viewDetailsLabel: string;
   highlightsLabel: string;
+  technologiesLabel: string;
+  yearLabel: string;
 };
 
 export function ChatBubble({
@@ -49,6 +51,8 @@ export function ChatBubble({
   thinkingLabel,
   viewDetailsLabel,
   highlightsLabel,
+  technologiesLabel,
+  yearLabel,
 }: ChatBubbleProps) {
   const isThinking = text.length === 0;
   const hasCard = hasRenderableCard(card);
@@ -131,6 +135,8 @@ export function ChatBubble({
               demoLabel={openDemoLabel}
               linksLabel={projectLinksLabel}
               screenshotsLabel={projectScreenshotsLabel}
+              technologiesLabel={technologiesLabel}
+              yearLabel={yearLabel}
               onClose={() => setOpen(null)}
             />
           ) : null}

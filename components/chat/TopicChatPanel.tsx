@@ -50,6 +50,8 @@ export function TopicChatPanel() {
                 thinkingLabel={messages.thinking}
                 viewDetailsLabel={messages.viewDetails}
                 highlightsLabel={messages.highlightsLabel}
+                technologiesLabel={messages.technologiesLabel}
+                yearLabel={messages.yearLabel}
               />
             </ChatEnter>
           ),

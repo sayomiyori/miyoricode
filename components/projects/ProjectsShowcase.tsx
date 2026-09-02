@@ -206,6 +206,8 @@ export function ProjectsShowcase({
           demoLabel={demoLabel}
           linksLabel={linksLabel}
           screenshotsLabel={screenshotsLabel}
+          technologiesLabel={messages.technologiesLabel}
+          yearLabel={messages.yearLabel}
           onClose={() => setOpen(null)}
         />
       ) : null}

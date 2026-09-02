@@ -17,7 +17,9 @@
     "projectsEyebrow": "Портфолио",
     "projectsTitle": "Мои проекты",
     "viewDetails": "Подробнее",
-    "highlightsLabel": "Ключевое"
+    "highlightsLabel": "Ключевое",
+    "technologiesLabel": "Технологии",
+    "yearLabel": "Год"
   },
   "Metadata": {
     "title": "Матвей — Backend / LLM Engineer",

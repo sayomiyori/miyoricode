@@ -17,7 +17,9 @@
     "projectsEyebrow": "Portfolio",
     "projectsTitle": "My Projects",
     "viewDetails": "View details",
-    "highlightsLabel": "Highlights"
+    "highlightsLabel": "Highlights",
+    "technologiesLabel": "Technologies",
+    "yearLabel": "Year"
   },
   "Metadata": {
     "title": "Matvey — Backend / LLM Engineer",

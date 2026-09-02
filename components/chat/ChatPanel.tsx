@@ -49,6 +49,8 @@ export function ChatPanel() {
                 thinkingLabel={messages.thinking}
                 viewDetailsLabel={messages.viewDetails}
                 highlightsLabel={messages.highlightsLabel}
+                technologiesLabel={messages.technologiesLabel}
+                yearLabel={messages.yearLabel}
               />
               </ChatEnter>
             ),

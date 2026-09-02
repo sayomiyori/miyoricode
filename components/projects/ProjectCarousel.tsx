@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { ProjectModal } from "@/components/projects/ProjectModal";
+import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { hasRenderableCard, type CarouselItem, type ChatCard } from "@/lib/chat";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +24,7 @@ export function ProjectCarousel({
   linksLabel,
   screenshotsLabel,
 }: ProjectCarouselProps) {
+  const { messages } = useLocaleSwitch();
   const [open, setOpen] = useState<CarouselItem | null>(null);
   const scrollRef = useRef<HTMLUListElement>(null);
 
@@ -107,6 +109,8 @@ export function ProjectCarousel({
           demoLabel={demoLabel}
           linksLabel={linksLabel}
           screenshotsLabel={screenshotsLabel}
+          technologiesLabel={messages.technologiesLabel}
+          yearLabel={messages.yearLabel}
           onClose={() => setOpen(null)}
         />
       ) : null}
