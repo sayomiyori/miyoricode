@@ -2,9 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectModal } from "@/components/projects/ProjectModal";
-import { hasRenderableCard, type CarouselItem, type ChatCard } from "@/lib/chat";
+import {
+  hasRenderableCard,
+  projectTagline,
+  type CarouselItem,
+  type ChatCard,
+} from "@/lib/chat";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +41,7 @@ type ProjectsShowcaseProps = {
   demoLabel: string;
   linksLabel: string;
   screenshotsLabel: string;
+  viewDetailsLabel: string;
 };
 
 export function ProjectsShowcase({
@@ -44,6 +50,7 @@ export function ProjectsShowcase({
   demoLabel,
   linksLabel,
   screenshotsLabel,
+  viewDetailsLabel,
 }: ProjectsShowcaseProps) {
   const { messages } = useLocaleSwitch();
   const [open, setOpen] = useState<CarouselItem | null>(null);
@@ -107,48 +114,87 @@ export function ProjectsShowcase({
 
       <motion.div
         key={page}
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3"
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        {visibleItems.map((item, index) => (
-          <motion.button
-            key={item.id}
-            type="button"
-            onClick={() => setOpen(item)}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.08, duration: 0.3 }}
-            whileHover={{ scale: 1.03, y: -4 }}
-            className={cn(
-              "group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-2xl text-left",
-              "shadow-xl",
-              "transition-shadow duration-300 hover:shadow-2xl",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
-            )}
-            style={{ background: getCoverStyle(item) }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {visibleItems.map((item, index) => {
+          const tagline = projectTagline(item);
+          return (
+            <motion.button
+              key={item.id}
+              type="button"
+              onClick={() => setOpen(item)}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: index * 0.08, duration: 0.3 }}
+              whileHover={{ scale: 1.03, y: -6 }}
+              className={cn(
+                "group relative aspect-[4/5] w-full cursor-pointer overflow-hidden rounded-2xl text-left",
+                "shadow-xl ring-1 ring-white/10",
+                "transition-shadow duration-300 hover:shadow-2xl hover:ring-white/30",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
+              )}
+              style={{ background: getCoverStyle(item) }}
+            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background:
+                    "linear-gradient(120deg, rgba(255,255,255,0.45), rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,0.45))",
+                }}
+              />
 
-            <div className="absolute left-3 top-3 z-10">
-              <span className="rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-md">
-                {item.category}
-              </span>
-            </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
 
-            <div className="absolute inset-x-3 bottom-3 z-10 text-white">
-              <h3 className="font-display text-lg font-bold leading-tight tracking-tight drop-shadow-lg sm:text-xl">
-                {item.title}
-              </h3>
-              <p className="mt-0.5 text-[10px] font-medium uppercase tracking-wider text-white/80">
-                {item.year}
-              </p>
-            </div>
+              <div className="absolute left-3 top-3 z-10">
+                <span className="rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-md">
+                  {item.category}
+                </span>
+              </div>
 
-            <div className="absolute inset-0 bg-white/0 transition-colors duration-300 group-hover:bg-white/10" />
-          </motion.button>
-        ))}
+              <div className="absolute right-3 top-3 z-10">
+                <span
+                  className={cn(
+                    "flex size-9 items-center justify-center rounded-full",
+                    "bg-white/15 text-white backdrop-blur-md",
+                    "translate-x-1 -translate-y-1 opacity-0",
+                    "transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100",
+                  )}
+                >
+                  <ArrowUpRight className="size-4" strokeWidth={2} />
+                </span>
+              </div>
+
+              <div className="absolute inset-x-4 bottom-4 z-10 text-white">
+                <h3 className="font-display text-2xl font-bold leading-tight tracking-tight drop-shadow-lg">
+                  {item.title}
+                </h3>
+                {tagline ? (
+                  <p className="mt-1.5 line-clamp-2 text-sm font-medium leading-snug text-white/85 drop-shadow">
+                    {tagline}
+                  </p>
+                ) : null}
+                <div className="mt-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/70">
+                  <span>{item.year}</span>
+                  <span
+                    aria-hidden="true"
+                    className="h-1 w-1 rounded-full bg-white/40"
+                  />
+                  <span className="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-white">
+                    {viewDetailsLabel}
+                    <ArrowUpRight
+                      className="size-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      strokeWidth={2.5}
+                    />
+                  </span>
+                </div>
+              </div>
+            </motion.button>
+          );
+        })}
       </motion.div>
 
       {totalPages > 1 && (

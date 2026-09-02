@@ -36,18 +36,20 @@ export function ChatPanel() {
               </ChatEnter>
             ) : (
               <ChatEnter key={turn.id} restored={turn.isRestored}>
-                <ChatBubble
-                  text={turn.text}
-                  attachments={turn.attachments}
-                  card={turn.card}
-                  openDemoLabel={messages.openDemo}
-                  closePreviewLabel={messages.closePreview}
-                  previewTitle={messages.previewTitle}
-                  closeProjectLabel={messages.closeProject}
-                  projectLinksLabel={messages.projectLinks}
-                  projectScreenshotsLabel={messages.projectScreenshots}
-                  thinkingLabel={messages.thinking}
-                />
+              <ChatBubble
+                text={turn.text}
+                attachments={turn.attachments}
+                card={turn.card}
+                openDemoLabel={messages.openDemo}
+                closePreviewLabel={messages.closePreview}
+                previewTitle={messages.previewTitle}
+                closeProjectLabel={messages.closeProject}
+                projectLinksLabel={messages.projectLinks}
+                projectScreenshotsLabel={messages.projectScreenshots}
+                thinkingLabel={messages.thinking}
+                viewDetailsLabel={messages.viewDetails}
+                highlightsLabel={messages.highlightsLabel}
+              />
               </ChatEnter>
             ),
           )}

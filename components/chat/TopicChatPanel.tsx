@@ -48,6 +48,8 @@ export function TopicChatPanel() {
                 projectLinksLabel={messages.projectLinks}
                 projectScreenshotsLabel={messages.projectScreenshots}
                 thinkingLabel={messages.thinking}
+                viewDetailsLabel={messages.viewDetails}
+                highlightsLabel={messages.highlightsLabel}
               />
             </ChatEnter>
           ),

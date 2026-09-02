@@ -15,7 +15,9 @@
     "projectLinks": "Ссылки",
     "projectScreenshots": "Скриншоты",
     "projectsEyebrow": "Портфолио",
-    "projectsTitle": "Мои проекты"
+    "projectsTitle": "Мои проекты",
+    "viewDetails": "Подробнее",
+    "highlightsLabel": "Ключевое"
   },
   "Metadata": {
     "title": "Матвей — Backend / LLM Engineer",

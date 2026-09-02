@@ -21,6 +21,7 @@ export type CarouselItem = {
   title: string;
   category: string;
   year: string;
+  tagline: string | null;
   cover_image: string | null;
   cover_gradient: string[] | null;
   description: string;
@@ -128,6 +129,7 @@ export function sanitizeCarouselItem(value: unknown): CarouselItem | null {
     title: raw.title,
     category: typeof raw.category === "string" ? raw.category : "",
     year: asYear(raw.year),
+    tagline: asOptionalString(raw.tagline),
     cover_image: asOptionalString(raw.cover_image),
     cover_gradient: isStringArray(raw.cover_gradient) ? raw.cover_gradient : null,
     description: typeof raw.description === "string" ? raw.description : "",
@@ -188,4 +190,28 @@ export function isSafeHttpUrl(url: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Derive a short single-line tagline for a project card.
+ *
+ * Falls back to the first sentence of `description` when no explicit
+ * `tagline` is provided. Used by the showcase so cards stay scannable
+ * while the full description lives inside the project modal.
+ */
+export function projectTagline(item: CarouselItem, maxLen = 90): string {
+  if (item.tagline && item.tagline.trim().length > 0) {
+    return truncate(item.tagline.trim(), maxLen);
+  }
+  const source = item.description.trim();
+  if (source.length === 0) return "";
+  const firstSentence = source.split(/[.!?\n]/, 1)[0]?.trim() ?? source;
+  return truncate(firstSentence, maxLen);
+}
+
+function truncate(value: string, maxLen: number): string {
+  if (value.length <= maxLen) return value;
+  const cut = value.slice(0, maxLen - 1);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > 40 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`;
 }
