@@ -15,7 +15,7 @@ const MOCK_CARD: ChatCard = {
       year: "2026",
       tagline: null,
       cover_image: "/projects/velox-mascot.png",
-      cover_gradient: ["#3b82f6", "#06b6d4"],
+      cover_gradient: ["#0c4a6e", "#0e7490"],
       description:
         "AI-platform for runners with RAG coach. FastAPI, React, Qdrant.",
       technologies: ["FastAPI", "React", "Qdrant"],

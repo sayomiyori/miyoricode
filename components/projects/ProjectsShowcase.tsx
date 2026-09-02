@@ -168,30 +168,15 @@ export function ProjectsShowcase({
               />
 
               {mascot ? (
-                <>
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 overflow-hidden"
-                  >
-                    <Image
-                      src={mascot}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                      className="scale-110 object-cover opacity-70 blur-xl saturate-150"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <div className="absolute inset-0 z-[1] flex items-center justify-center p-6">
-                    <Image
-                      src={mascot}
-                      alt={item.title}
-                      fill
-                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                      className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                </>
+                <div className="absolute inset-0 z-[1] flex items-center justify-center p-6">
+                  <Image
+                    src={mascot}
+                    alt={item.title}
+                    fill
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
               ) : null}
 
               <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/35 to-black/5" />
