@@ -155,19 +155,6 @@ export function ProjectsShowcase({
                 </span>
               </div>
 
-              <div className="absolute right-3 top-3 z-10">
-                <span
-                  className={cn(
-                    "flex size-9 items-center justify-center rounded-full",
-                    "bg-white/15 text-white backdrop-blur-md",
-                    "translate-x-1 -translate-y-1 opacity-0",
-                    "transition-all duration-300 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100",
-                  )}
-                >
-                  <ArrowUpRight className="size-4" strokeWidth={2} />
-                </span>
-              </div>
-
               <div className="absolute inset-x-4 bottom-4 z-10 text-white">
                 <h3 className="font-display text-2xl font-bold leading-tight tracking-tight drop-shadow-lg">
                   {item.title}
@@ -177,16 +164,12 @@ export function ProjectsShowcase({
                     {tagline}
                   </p>
                 ) : null}
-                <div className="mt-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-white/70">
-                  <span>{item.year}</span>
-                  <span
-                    aria-hidden="true"
-                    className="h-1 w-1 rounded-full bg-white/40"
-                  />
-                  <span className="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-white">
+                <div className="mt-3 flex items-center justify-between gap-2 text-[11px] font-semibold uppercase tracking-wider">
+                  <span className="text-white/70">{item.year}</span>
+                  <span className="inline-flex items-center gap-1 text-white/80 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-white">
                     {viewDetailsLabel}
                     <ArrowUpRight
-                      className="size-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      className="size-3"
                       strokeWidth={2.5}
                     />
                   </span>

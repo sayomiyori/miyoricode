@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { ArrowUpRight } from "lucide-react";
 import { MessageAttachments } from "@/components/chat/MessageAttachments";
 import { ProjectCarousel } from "@/components/projects/ProjectCarousel";
 import { ProjectsShowcase } from "@/components/projects/ProjectsShowcase";
@@ -89,23 +88,22 @@ export function ChatBubble({
                       type="button"
                       onClick={() => setOpen(item)}
                       className={cn(
-                        "group flex w-full items-start gap-2 rounded-lg px-2 py-1.5 text-left",
-                        "text-sm text-ink/85 transition-colors duration-200",
-                        "hover:bg-white/10 hover:text-ink",
+                        "group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left",
+                        "text-sm text-ink/85 transition-all duration-200",
+                        "hover:bg-white/10 hover:pl-3 hover:text-ink",
                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-splat-blue/70",
                       )}
                     >
-                      <span className="mt-1 size-1.5 shrink-0 rounded-full bg-splat-blue/70" />
-                      <span className="min-w-0 flex-1">
+                      <span
+                        aria-hidden="true"
+                        className="size-1.5 shrink-0 rounded-full bg-splat-blue/70 transition-transform duration-200 group-hover:scale-150"
+                      />
+                      <span className="min-w-0 flex-1 truncate">
                         <span className="font-semibold">{item.title}</span>
                         {meta ? (
                           <span className="text-ink/55"> · {meta}</span>
                         ) : null}
                       </span>
-                      <ArrowUpRight
-                        className="mt-0.5 size-4 shrink-0 text-ink/40 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink"
-                        strokeWidth={2}
-                      />
                     </button>
                   </li>
                 );
