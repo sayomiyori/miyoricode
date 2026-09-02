@@ -195,18 +195,45 @@ export function isSafeHttpUrl(url: string): boolean {
 /**
  * Derive a short single-line tagline for a project card.
  *
- * Falls back to the first sentence of `description` when no explicit
- * `tagline` is provided. Used by the showcase so cards stay scannable
- * while the full description lives inside the project modal.
+ * Cards must NOT repeat the modal description — that hurts scannability.
+ * The rule:
+ *   1. Use the explicit `tagline` from the API if present.
+ *   2. Otherwise compose a high-signal hint from `category` +
+ *      `technologies` (e.g. "AI Product · FastAPI, React, Qdrant").
+ *
+ * The full `description` stays in the project modal only.
  */
 export function projectTagline(item: CarouselItem, maxLen = 90): string {
   if (item.tagline && item.tagline.trim().length > 0) {
     return truncate(item.tagline.trim(), maxLen);
   }
-  const source = item.description.trim();
-  if (source.length === 0) return "";
-  const firstSentence = source.split(/[.!?\n]/, 1)[0]?.trim() ?? source;
-  return truncate(firstSentence, maxLen);
+  return truncate(buildStackHint(item), maxLen);
+}
+
+function buildStackHint(item: CarouselItem): string {
+  const parts: string[] = [];
+  if (item.category && item.category.trim().length > 0) {
+    parts.push(item.category.trim());
+  }
+  const techs = item.technologies
+    .map((t) => t.trim())
+    .filter((t) => t.length > 0)
+    .slice(0, 3);
+  if (techs.length > 0) {
+    parts.push(techs.join(" · "));
+  }
+  return parts.join(" — ");
+}
+
+/**
+ * Compact meta line used in the "highlights" list.
+ * Never reproduces the tagline so the list stays scannable.
+ */
+export function projectMeta(item: CarouselItem): string {
+  const parts: string[] = [];
+  if (item.category) parts.push(item.category);
+  if (item.year) parts.push(item.year);
+  return parts.join(" · ");
 }
 
 function truncate(value: string, maxLen: number): string {

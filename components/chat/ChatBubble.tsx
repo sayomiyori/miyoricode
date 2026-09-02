@@ -9,7 +9,7 @@ import { ProjectModal } from "@/components/projects/ProjectModal";
 import { LocaleFade } from "@/components/layout/LocaleFade";
 import {
   hasRenderableCard,
-  projectTagline,
+  projectMeta,
   type CarouselItem,
   type ChatAttachments,
   type ChatCard,
@@ -82,7 +82,7 @@ export function ChatBubble({
             </p>
             <ul className="mt-2 flex flex-col gap-1">
               {card.items.map((item) => {
-                const tagline = projectTagline(item, 110);
+                const meta = projectMeta(item);
                 return (
                   <li key={item.id}>
                     <button
@@ -98,8 +98,8 @@ export function ChatBubble({
                       <span className="mt-1 size-1.5 shrink-0 rounded-full bg-splat-blue/70" />
                       <span className="min-w-0 flex-1">
                         <span className="font-semibold">{item.title}</span>
-                        {tagline ? (
-                          <span className="text-ink/60"> — {tagline}</span>
+                        {meta ? (
+                          <span className="text-ink/55"> · {meta}</span>
                         ) : null}
                       </span>
                       <ArrowUpRight
