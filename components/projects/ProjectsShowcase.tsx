@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { ProjectModal } from "@/components/projects/ProjectModal";
@@ -24,6 +25,12 @@ const COVER_PRESETS: Record<string, string> = {
   "default": "linear-gradient(135deg, #a855f7 0%, #ec4899 100%)",
 };
 
+const MASCOT_PRESETS: Record<string, string> = {
+  velox: "/projects/velox-mascot.png",
+  maitre: "/projects/maitre-mascot.png",
+  "ai-chaina": "/projects/ai-chaina-mascot.png",
+};
+
 function getCoverStyle(item: CarouselItem): string {
   if (item.cover_gradient && item.cover_gradient.length >= 2) {
     return `linear-gradient(135deg, ${item.cover_gradient[0]} 0%, ${item.cover_gradient[1]} 100%)`;
@@ -33,6 +40,18 @@ function getCoverStyle(item: CarouselItem): string {
     if (categoryKey.includes(key)) return COVER_PRESETS[key];
   }
   return COVER_PRESETS.default;
+}
+
+function getMascotUrl(item: CarouselItem): string | null {
+  if (item.cover_image && item.cover_image.startsWith("/projects/")) {
+    return item.cover_image;
+  }
+  const titleKey = item.title.toLowerCase().replace(/\s+/g, "-");
+  if (MASCOT_PRESETS[titleKey]) return MASCOT_PRESETS[titleKey];
+  for (const key of Object.keys(MASCOT_PRESETS)) {
+    if (titleKey.includes(key)) return MASCOT_PRESETS[key];
+  }
+  return null;
 }
 
 type ProjectsShowcaseProps = {
@@ -121,6 +140,7 @@ export function ProjectsShowcase({
       >
         {visibleItems.map((item, index) => {
           const tagline = projectTagline(item);
+          const mascot = getMascotUrl(item);
           return (
             <motion.button
               key={item.id}
@@ -147,7 +167,34 @@ export function ProjectsShowcase({
                 }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+              {mascot ? (
+                <>
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 overflow-hidden"
+                  >
+                    <Image
+                      src={mascot}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                      className="scale-110 object-cover opacity-70 blur-xl saturate-150"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="absolute inset-0 z-[1] flex items-center justify-center p-6">
+                    <Image
+                      src={mascot}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                      className="object-contain drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                </>
+              ) : null}
+
+              <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/35 to-black/5" />
 
               <div className="absolute left-3 top-3 z-10">
                 <span className="rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-md">
