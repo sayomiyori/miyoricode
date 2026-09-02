@@ -23,17 +23,18 @@ export function PhoneFrame({
       className={cn(
         "relative isolate overflow-hidden rounded-[2rem] border-[9px] border-ink",
         "shadow-[0_14px_28px_-10px_rgb(26_29_35_/_0.38)]",
+        "bg-ink",
         className,
       )}
     >
-      <div className="relative aspect-[9/19.5] bg-ink">
+      <div className="relative aspect-[9/19.5]">
         <Image
           src={src}
           alt={alt}
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover"
+          className="object-contain"
         />
       </div>
       <div

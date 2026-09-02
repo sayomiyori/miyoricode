@@ -114,9 +114,9 @@ export function ProjectModal({
   }
 
   return createPortal(
-    <AnimatePresence>
+      <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-10"
+        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 py-8 sm:py-12"
         role="presentation"
         key="modal-root"
       >
@@ -297,7 +297,7 @@ export function ProjectModal({
                     key={shot.url}
                     className={
                       shot.frame === "phone"
-                        ? "mx-auto w-[12rem] md:w-[14rem]"
+                        ? "mx-auto w-[10rem] sm:w-[11rem]"
                         : "w-full"
                     }
                   >
@@ -307,10 +307,10 @@ export function ProjectModal({
                       frame={shot.frame}
                       sizes={
                         shot.frame === "phone"
-                          ? "(max-width: 768px) 44vw, 224px"
+                          ? "(max-width: 768px) 36vw, 176px"
                           : "(max-width: 768px) 92vw, 640px"
                       }
-                      objectFit={shot.frame === "browser" ? "contain" : "cover"}
+                      objectFit="contain"
                     />
                   </li>
                 ))}
