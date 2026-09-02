@@ -6,6 +6,7 @@ import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import type { ChatTurn } from "@/lib/chat";
 
 type TopicChatContextValue = {
+  topic: string;
   turns: ChatTurn[];
   pending: boolean;
   send: (message: string) => Promise<void>;
@@ -24,7 +25,11 @@ export function TopicChatProvider({
   const chat = useTopicChat(topic, displayLocale, messages.chatError);
 
   return (
-    <TopicChatContext.Provider value={chat}>{children}</TopicChatContext.Provider>
+    <TopicChatContext.Provider
+      value={{ topic, turns: chat.turns, pending: chat.pending, send: chat.send }}
+    >
+      {children}
+    </TopicChatContext.Provider>
   );
 }
 

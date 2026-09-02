@@ -1,15 +1,27 @@
 "use client";
 
+import { useMemo } from "react";
 import { ChatBubble } from "@/components/chat/ChatBubble";
 import { ChatEnter } from "@/components/chat/ChatEnter";
 import { AskInput } from "@/components/hero/AskInput";
 import { useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import { useTopicChatContext } from "@/components/chat/topic-chat-context";
+import { TopicVisualContent } from "@/components/topic/TopicVisualContent";
 import { cn } from "@/lib/utils";
+
+const TOPICS_WITH_VISUALS = new Set(["skills", "fun"]);
 
 export function TopicChatPanel() {
   const { messages } = useLocaleSwitch();
-  const { turns, pending, send } = useTopicChatContext();
+  const { topic, turns, pending, send } = useTopicChatContext();
+  const showVisualsInBubble = TOPICS_WITH_VISUALS.has(topic);
+
+  // Build the visual content slot once per (topic, locale) so skill/fun
+  // badges sit inside the same chat bubble as the agent's text response.
+  const visualContent = useMemo(() => {
+    if (!showVisualsInBubble) return undefined;
+    return <TopicVisualContent topic={topic} />;
+  }, [showVisualsInBubble, topic]);
 
   if (turns.length === 0 && !pending) return null;
 
@@ -42,6 +54,7 @@ export function TopicChatPanel() {
                 attachments={turn.attachments}
                 card={turn.card}
                 pending={pending}
+                visualContent={visualContent}
                 openDemoLabel={messages.openDemo}
                 closePreviewLabel={messages.closePreview}
                 previewTitle={messages.previewTitle}

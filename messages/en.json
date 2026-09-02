@@ -19,7 +19,35 @@
     "viewDetails": "View details",
     "highlightsLabel": "Highlights",
     "technologiesLabel": "Technologies",
-    "yearLabel": "Year"
+    "yearLabel": "Year",
+    "skills": {
+      "Backend": "Backend",
+      "backendDesc": "Python, FastAPI, Node.js",
+      "LLM": "LLM / AI",
+      "llmDesc": "RAG, LangChain, GPT",
+      "Databases": "Databases",
+      "databasesDesc": "PostgreSQL, Redis, MongoDB",
+      "API": "API Design",
+      "apiDesc": "REST, GraphQL, WebSockets",
+      "DevOps": "DevOps",
+      "devopsDesc": "Docker, CI/CD, Linux",
+      "Performance": "Performance",
+      "performanceDesc": "Caching, Optimization"
+    },
+    "fun": {
+      "VideoEditing": "Video Editing",
+      "videoEditingDesc": "Premiere Pro, After Effects — AMV & music videos",
+      "VFX": "VFX & Effects",
+      "vfxDesc": "Saber, Twixtor, Optical Flares, Trapcode",
+      "Streaming": "Streaming",
+      "streamingDesc": "Twitch — anime, gaming, just chatting",
+      "Content": "Content Creation",
+      "contentDesc": "YouTube, TikTok, Instagram — short & long form",
+      "Gaming": "Gaming",
+      "gamingDesc": "PUBG, WoW, Aion — MMO & survival",
+      "Hardware": "Hardware",
+      "hardwareDesc": "PC builds, modding, configs"
+    }
   },
   "Metadata": {
     "title": "Matvey — Backend / LLM Engineer",

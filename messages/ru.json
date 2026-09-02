@@ -19,7 +19,35 @@
     "viewDetails": "Подробнее",
     "highlightsLabel": "Ключевое",
     "technologiesLabel": "Технологии",
-    "yearLabel": "Год"
+    "yearLabel": "Год",
+    "skills": {
+      "Backend": "Backend",
+      "backendDesc": "Python, FastAPI, Node.js",
+      "LLM": "LLM / AI",
+      "llmDesc": "RAG, LangChain, GPT",
+      "Databases": "Базы данных",
+      "databasesDesc": "PostgreSQL, Redis, MongoDB",
+      "API": "API Design",
+      "apiDesc": "REST, GraphQL, WebSockets",
+      "DevOps": "DevOps",
+      "devopsDesc": "Docker, CI/CD, Linux",
+      "Performance": "Производительность",
+      "performanceDesc": "Кэширование, оптимизация"
+    },
+    "fun": {
+      "VideoEditing": "Видеомонтаж",
+      "videoEditingDesc": "Premiere Pro, After Effects — AMV и клипы",
+      "VFX": "VFX и эффекты",
+      "vfxDesc": "Saber, Twixtor, Optical Flares, Trapcode",
+      "Streaming": "Стриминг",
+      "streamingDesc": "Twitch — аниме, игры, общение",
+      "Content": "Контент",
+      "contentDesc": "YouTube, TikTok, Instagram — короткие и длинные видео",
+      "Gaming": "Игры",
+      "gamingDesc": "PUBG, WoW, Aion — MMO и выживание",
+      "Hardware": "Железо",
+      "hardwareDesc": "Сборка ПК, моддинг, конфиги"
+    }
   },
   "Metadata": {
     "title": "Матвей — Backend / LLM Engineer",

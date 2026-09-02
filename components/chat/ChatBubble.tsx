@@ -13,7 +13,7 @@ import {
   type ChatAttachments,
   type ChatCard,
 } from "@/lib/chat";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const BotMarkdown = dynamic(
@@ -26,6 +26,9 @@ type ChatBubbleProps = {
   attachments?: ChatAttachments | null;
   card?: ChatCard | null;
   pending?: boolean;
+  /** Inline content rendered at the top of the bubble (used by topic
+   *  pages to attach skill/fun badges to the agent's text response). */
+  visualContent?: ReactNode;
   openDemoLabel: string;
   closePreviewLabel: string;
   previewTitle: string;
@@ -44,6 +47,7 @@ export function ChatBubble({
   attachments,
   card,
   pending = false,
+  visualContent,
   openDemoLabel,
   closePreviewLabel,
   previewTitle,
@@ -73,6 +77,7 @@ export function ChatBubble({
       )}
       aria-busy={isThinking}
     >
+      {visualContent ? <div className="w-full min-w-0">{visualContent}</div> : null}
       {hasCard ? (
         <>
           <ProjectsShowcase
