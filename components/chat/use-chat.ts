@@ -54,6 +54,14 @@ export function useChat(lang: "en" | "ru", errorFallback: string) {
     setSessionId(readStoredSession());
   }, []);
 
+  // Clear stale, language-bound history when the user switches locale.
+  // The bot's previous reply is tied to the language it was generated in,
+  // so re-rendering it in a new language would produce a mixed bag.
+  useEffect(() => {
+    setTurns([]);
+    writeStoredHistory([]);
+  }, [lang]);
+
   useLayoutEffect(() => {
     const stored = readStoredHistory();
     if (stored.length === 0) return;

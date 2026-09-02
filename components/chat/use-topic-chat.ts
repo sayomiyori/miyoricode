@@ -62,6 +62,17 @@ export function useTopicChat(
     setTurns(stored);
   }, [topic]);
 
+  // Clear stale, language-bound history when the user switches locale.
+  // The bot's previous reply is tied to the language it was generated in,
+  // so re-rendering it in a new language would produce a mixed bag.
+  // Also reset the auto-prompt guard so the welcome prompt fires again
+  // in the new locale.
+  useEffect(() => {
+    setTurns([]);
+    writeTopicHistory(topic, []);
+    autoFiredRef.current = false;
+  }, [lang, topic]);
+
   const commitTurns = useCallback(
     (updater: (current: ChatTurn[]) => ChatTurn[]) => {
       setTurns((current) => {

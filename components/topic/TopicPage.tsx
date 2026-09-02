@@ -10,7 +10,7 @@ import { AvatarTilt } from "@/components/hero/AvatarTilt";
 import { Logo } from "@/components/hero/Logo";
 import { Watermark } from "@/components/hero/Watermark";
 import { LangToggle } from "@/components/layout/LangToggle";
-import { LocaleSwitchProvider } from "@/components/layout/LocaleSwitchProvider";
+import { LocaleSwitchProvider, useLocaleSwitch } from "@/components/layout/LocaleSwitchProvider";
 import {
   heroContainer,
   heroItem,
@@ -27,6 +27,17 @@ const TOPIC_HEADERS: Record<string, { en: string; ru: string }> = {
   contact: { en: "Contact", ru: "Контакты" },
 };
 
+function TopicHeader({ topic }: { topic: string }) {
+  const { displayLocale } = useLocaleSwitch();
+  const header = TOPIC_HEADERS[topic];
+  const title = header ? header[displayLocale] ?? header.en : topic;
+  return (
+    <h1 className="text-2xl font-semibold text-ink wdth-normal">
+      {title}
+    </h1>
+  );
+}
+
 type Props = {
   topic: string;
 };
@@ -34,8 +45,6 @@ type Props = {
 export function TopicPage({ topic }: Props) {
   const playEntrance = useRef(shouldPlayHeroEntrance());
   const isProjects = topic === "projects";
-  const isSkills = topic === "skills";
-  const isFun = topic === "fun";
   // For skills/fun, badges live inside the chat bubble (via TopicChatPanel).
   // Only show AvatarTilt for the "me" page.
   const showAvatar = topic === "me";
@@ -59,13 +68,7 @@ export function TopicPage({ topic }: Props) {
             <Logo enter={playEntrance.current} />
 
             <motion.div variants={heroItem} className="mt-6">
-              <h1
-                className={cn(
-                  "text-2xl font-semibold text-ink wdth-normal",
-                )}
-              >
-                {TOPIC_HEADERS[topic]?.en ?? topic}
-              </h1>
+              <TopicHeader topic={topic} />
             </motion.div>
 
             {showAvatar && (
